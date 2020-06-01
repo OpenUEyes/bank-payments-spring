@@ -5,6 +5,7 @@ import com.company.bps.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -41,5 +42,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void delete(Account account) {
         repository.delete(account);
+    }
+
+    @Override
+    public Optional<Account> findByLoginAndPassword(String login, String password) {
+        return repository.findByLoginAndPassword(login, password);
+    }
+
+    @Override
+    public boolean existsByLoginOrEmailOrPhoneNumber(String login, String email, String phoneNumber) {
+        return repository.existsByLoginOrEmailOrPhoneNumber(login, email, phoneNumber);
     }
 }

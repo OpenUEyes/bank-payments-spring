@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout::layout(~{::main}, 'Bank Payments Project')}" lang="en">
+
+<main>
+    <div class="content bg-hero">
+        <div class="form form-index">
+            <h3 class="header">Authentication</h3>
+            <form class="body" th:action="@{/authentication}" method="POST">
+                <span class="error" th:text="${errorMessage}"></span>
+                <div class="input">
+                    <label for="loginID">Login:</label>
+                    <input name="login" id="loginID" type="text" value=""
+                           placeholder="Enter login"/>
+                </div>
+                <div class="input">
+                    <label for="passwordID">Password:</label>
+                    <input name="password" id="passwordID" type="password" value=""
+                           placeholder="Enter password"/>
+                </div>
+                <button class="button" type="submit">Log in</button>
+            </form>
+            <div class="pagination">
+                <a th:href="@{/registration}"
+                   class="link" role="button">To Registration</a>
+            </div>
+        </div>
+    </div>
+</main>
+</html>

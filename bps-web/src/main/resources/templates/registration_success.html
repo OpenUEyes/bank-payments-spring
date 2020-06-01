@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout::layout(~{::main}, 'Success')}" lang="en">
+
+<main>
+    <div class="content bg-reg-success">
+        <div class="form form-reg-success">
+            <h4 class="header">Registration was successful</h4>
+            <div class="pagination">
+                <a th:href="@{/authentication}"
+                   class="link" role="button">To Authentication</a>
+            </div>
+        </div>
+    </div>
+</main>
+</html>

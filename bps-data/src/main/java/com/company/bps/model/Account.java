@@ -19,13 +19,13 @@ public class Account implements Comparable<Account> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     private String login;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "name")
@@ -34,7 +34,7 @@ public class Account implements Comparable<Account> {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phoneNumber", unique = true)
     private String phoneNumber;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")

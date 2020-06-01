@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout::layout(~{::main}, 'Registration')}" lang="en">
+
+<main>
+    <div class="content bg-reg">
+        <div class="form form-reg">
+            <h3 class="header">Registration</h3>
+            <form class="body" th:action="@{/registration}" th:object="${account}" method="POST">
+                <span class="error" th:if="${#fields.hasErrors('*')}">
+                    <span th:each="err : ${#fields.errors('*')}" th:text="${err}">Something went wrong</span>
+                </span>
+                <span class="error" th:text="${errorMessage}"></span>
+                <!--                <c:if test="${not empty errorMessage}">-->
+                <!--                    <div class="error">-->
+                <!--                        <p>${errorMessage}</p>-->
+                <!--                    </div>-->
+                <!--                </c:if>-->
+                <div class="input">
+                    <label for="loginID">Login :</label>
+                    <input th:field="*{login}" id="loginID" type="text" class="form-control" value=""
+                           placeholder="Enter login"/>
+                </div>
+                <div class="input">
+                    <label for="passwordID">Password :</label>
+                    <input th:field="*{password}" id="passwordID" type="password" class="form-control" value=""
+                           placeholder="Enter password"/>
+                </div>
+                <div class="input">
+                    <label for="emailID">Email :</label>
+                    <input th:field="*{email}" id="emailID" type="email" class="form-control" value=""
+                           placeholder="Enter email"/>
+                </div>
+                <div class="input">
+                    <label for="nameID">Name :</label>
+                    <input th:field="*{name}" id="nameID" type="text" class="form-control" value=""
+                           placeholder="Enter name"/>
+                </div>
+                <div class="input">
+                    <label for="surnameID">Surname :</label>
+                    <input th:field="*{surname}" id="surnameID" type="text" class="form-control" value=""
+                           placeholder="Enter surname"/>
+                </div>
+                <div class="input">
+                    <label for="phoneNumberID">Phone number :</label>
+                    <input th:field="*{phoneNumber}" id="phoneNumberID" type="text" class="form-control" value=""
+                           placeholder="Enter phone number"/>
+                </div>
+                <button class="button" type="submit">Register</button>
+            </form>
+
+            <div class="pagination">
+                <a th:href="@{/authentication}"
+                   class="link" role="button">To Authentication</a>
+            </div>
+        </div>
+    </div>
+</main>
+</html>
