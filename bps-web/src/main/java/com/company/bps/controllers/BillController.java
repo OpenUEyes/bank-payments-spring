@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Slf4j
@@ -63,9 +65,87 @@ public class BillController {
                     return "error";
                 }
             }
+//            model.addAttribute("billId", billId);
             return "bill";
         } else {
             return "error";
         }
+    }
+
+    @PostMapping("/new/credit")
+    public String newCredit(Model model, HttpServletRequest request, @RequestParam Long billId, @RequestParam String amount) {
+        final Double validatedAmount;
+
+        try {
+            validatedAmount = Double.parseDouble(amount);
+        } catch (NullPointerException | NumberFormatException e) {
+            model.addAttribute("errorMessage", "Invalid input!");
+            request.setAttribute("billId", billId);
+            return "forward:/bill/get";
+        }
+
+        Double limit = 10000.0;
+        if (limit < validatedAmount) {
+            model.addAttribute("errorMessage", "Amount: " + validatedAmount + " should be less or equal limit: " + limit);
+            request.setAttribute("billId", billId);
+            return "forward:/bill/get";
+        }
+
+        Bill bill = billService.findById(billId);
+        Credit credit = Credit.builder()
+                .bill(bill)
+                .debt(validatedAmount)
+                .limit(limit)
+                .percentage(23.0)
+                .start(LocalDate.now())
+                .deadline(LocalDate.now().plusYears(1))
+                .build();
+
+        bill.setType(Type.CREDIT);
+        bill.setBalance(bill.getBalance() + validatedAmount);
+
+        creditService.save(credit);
+
+        model.addAttribute("billId", billId);
+        return "bill_success";
+    }
+
+
+    @PostMapping("/new/deposit")
+    public String newDeposit(Model model, HttpServletRequest request, @RequestParam Long billId, @RequestParam String amount) {
+        final Double validatedAmount;
+
+        try {
+            validatedAmount = Double.parseDouble(amount);
+        } catch (NullPointerException | NumberFormatException e) {
+            model.addAttribute("errorMessage", "Invalid input!");
+            request.setAttribute("billId", billId);
+            return "forward:/bill/get";
+        }
+
+        Bill bill = billService.findById(billId);
+        double recipientBalance = bill.getBalance();
+
+        if (recipientBalance < validatedAmount) {
+            model.addAttribute("errorMessage", "Your balance is: " + recipientBalance + ", you can't put to deposit more than your balance");
+            request.setAttribute("billId", billId);
+            return "forward:/bill/get";
+        }
+
+        Deposit deposit = Deposit.builder()
+                .bill(bill)
+                .amount(validatedAmount)
+                .rate(1.2)
+                .start(LocalDate.now())
+                .finish(LocalDate.now().plusYears(1))
+                .build();
+
+        bill.setType(Type.DEPOSIT);
+        bill.setBalance(bill.getBalance() - validatedAmount);
+
+        depositService.save(deposit);
+
+        model.addAttribute("billId", billId);
+        return "bill_success";
     }
 }

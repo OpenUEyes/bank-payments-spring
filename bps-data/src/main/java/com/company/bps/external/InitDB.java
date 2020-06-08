@@ -46,6 +46,7 @@ public class InitDB implements CommandLineRunner {
         Bill bill2 = Bill.builder().balance(100.0).type(Type.CREDIT).validity(LocalDate.now().plusYears(3)).account(account).build();
         Bill bill3 = Bill.builder().balance(0.0).type(Type.UNSIGNED).validity(LocalDate.now().plusYears(3)).account(account).build();
         Bill bill4 = Bill.builder().balance(0.0).type(Type.DEPOSIT).validity(LocalDate.now().plusYears(3)).account(account).build();
+        Bill bill5 = Bill.builder().balance(10000.0).type(Type.UNSIGNED).validity(LocalDate.now().plusYears(3)).account(account).build();
 
         accountService.save(account);
 
@@ -53,6 +54,7 @@ public class InitDB implements CommandLineRunner {
         Bill savedBill2 = billService.save(bill2);
         Bill savedBill3 = billService.save(bill3);
         Bill savedBill4 = billService.save(bill4);
+        Bill savedBill5 = billService.save(bill5);
 
 
         Credit credit1 = Credit.builder().bill(savedBill1).debt(500.0).percentage(1.3).limit(10000.0).start(LocalDate.now()).deadline(LocalDate.now().plusYears(1)).build();

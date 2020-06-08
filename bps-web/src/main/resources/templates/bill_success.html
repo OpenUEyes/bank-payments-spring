@@ -5,7 +5,7 @@
     <div class="content bg-reg-success">
         <h3 class="content-header">Action was successful</h3>
         <form class="form form-bill" th:action="@{/bill/get}" method="POST">
-            <input type="hidden" name="id" th:value="${billId}">
+            <input type="hidden" name="billId" th:value="${billId}">
             <h4 class="header">Continue</h4>
             <button class="submit" type="submit"></button>
         </form>

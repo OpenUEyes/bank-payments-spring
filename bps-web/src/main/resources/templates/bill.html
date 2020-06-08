@@ -6,11 +6,11 @@
         <div class="card-info">
             <div class="card">
                 <p class="bank">Bank Payments Project</p>
-                <img class="barcode" src="../img/card/barcode.png" alt="barcode"/>
-                <p th:text="${bill.id}" class="id"></p>
+                <img class="barcode" src="/img/card/barcode.png" alt="barcode"/>
+                <p class="id">1234 5678 9012 3456</p>
                 <p th:text="${bill.validity.getMonthValue() + '/' + bill.validity.getYear()}" class="validity"></p>
                 <p class="owner">Roman Romanenko</p>
-                <img class="type" src="../img/card/mastercard.png" alt="mastercard"/>
+                <img class="type" src="/img/card/mastercard.png" alt="mastercard"/>
             </div>
             <div class="content-wrapper">
                 <h3 class="content-header">Here is your card balance and validity:</h3>
@@ -30,8 +30,8 @@
                     <div class="form form-credit">
                         <h3 class="header">Take credit is simple:</h3>
                         <p class="secret">just 23% per month</p>
-                        <form th:action="@{/credit/new}" class="body" method="POST">
-                            <input type="hidden" name="id" value="${bill.id}">
+                        <form th:action="@{/bill/new/credit}" class="body" method="POST">
+                            <input type="hidden" name="billId" th:value="${bill.id}">
                             <div class="input">
                                 <label for="creditAmount">Amount:</label>
                                 <input class="currency" id="creditAmount" type="text" name="amount" value=""
@@ -43,8 +43,8 @@
                     <div class="form form-deposit">
                         <h3 class="header">Put deposit you can here:</h3>
                         <h4 class="header">We save and multiply your money for you</h4>
-                        <form th:action="@{/deposit/new}" class="body" method="POST">
-                            <input type="hidden" name="id" value="${bill.id}">
+                        <form th:action="@{/bill/new/deposit}" class="body" method="POST">
+                            <input type="hidden" name="billId" th:value="${bill.id}">
                             <div class="input">
                                 <label for="depositAmount">Amount:</label>
                                 <input class="currency" id="depositAmount" type="text" name="amount" value=""
@@ -71,10 +71,10 @@
             <hr>
             <div class="content-wrapper">
                 <h3 class="content-header">Information about your deposit:</h3>
-                <p class="content-text">Amount: ${deposit.amount} UAH</p>
-                <p class="content-text">Rate: ${deposit.rate}</p>
-                <p class="content-text">Start: ${deposit.start}</p>
-                <p class="content-text">Finish: ${deposit.finish}</p>
+                <p th:text="${'Amount: ' + deposit.amount + ' UAH'}" class="content-text"></p>
+                <p th:text="${'Rate: ' + deposit.rate + ' UAH'}" class="content-text"></p>
+                <p th:text="${'Start ' + deposit.start}" class="content-text"></p>
+                <p th:text="${'Finish ' + deposit.finish}" class="content-text"></p>
             </div>
         </div>
     </div>

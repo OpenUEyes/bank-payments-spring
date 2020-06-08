@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 //@SessionAttributes("accountId")
@@ -37,6 +38,14 @@ public class AuthenticationController {
             model.addAttribute("errorMessage", errorMessage);
             return "index";
         }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        if (session != null) {
+            session.invalidate();
+        }
+        return "index";
     }
 
 //    @PostMapping("/next")

@@ -7,7 +7,7 @@
             <!--            if logged-->
             <li th:if="${accountId}"><a th:href="@{/bills}" class="input">Bills</a></li>
             <li><a href="#" class="input">Contact</a></li>
-            <li th:if="${accountId}"><a href="${pageContext.request.contextPath}/logout" class="logout input">Logout</a>
+            <li th:if="${accountId}"><a th:href="@{/logout}" class="logout input">Logout</a>
             </li>
         </ul>
     </nav>
