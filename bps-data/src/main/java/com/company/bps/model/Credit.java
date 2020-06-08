@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = { "bill" })
+@EqualsAndHashCode(of = {"bill"})
 @NoArgsConstructor
 @Entity
 @Table(name = "credit")

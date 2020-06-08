@@ -31,7 +31,7 @@ public class RegistrationController {
         if (exist) {
             String errorMessage = "Login or Email or Phone Number are already in use.";
             model.addAttribute("errorMessage", errorMessage);
-            return "/registration";
+            return "registration";
         }
 
         try {

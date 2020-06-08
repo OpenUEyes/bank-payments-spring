@@ -5,41 +5,55 @@ import com.company.bps.repositories.DepositRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class DepositServiceImpl implements DepositService {
 
-    private final DepositRepository repository;
+    private final DepositRepository depositRepository;
 
-    public DepositServiceImpl(DepositRepository repository) {
-        this.repository = repository;
+    public DepositServiceImpl(DepositRepository depositRepository) {
+        this.depositRepository = depositRepository;
     }
 
     @Override
     public Deposit save(Deposit deposit) {
-        return repository.save(deposit);
+        return depositRepository.save(deposit);
     }
 
     @Override
     public Deposit findById(Long id) {
-        return repository.findById(id).orElse(null);
+        return depositRepository.findById(id).orElse(null);
     }
 
     @Override
     public Set<Deposit> findAll() {
         Set<Deposit> deposits = new HashSet<>();
-        repository.findAll().forEach(deposits::add);
+        depositRepository.findAll().forEach(deposits::add);
         return deposits;
     }
 
     @Override
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        depositRepository.deleteById(id);
     }
 
     @Override
     public void delete(Deposit deposit) {
-        repository.delete(deposit);
+        depositRepository.delete(deposit);
+    }
+
+    @Override
+    public Optional<Deposit> findByIdAndAccountId(Long billId, Long accountId) {
+        Optional<Deposit> optionalDeposit = depositRepository.findById(billId);
+        if (optionalDeposit.isPresent()){
+            Deposit deposit = optionalDeposit.get();
+            if (deposit.getBill().getAccount().getId().equals(accountId)) {
+                return optionalDeposit;
+            }
+        }
+
+        return Optional.empty();
     }
 }

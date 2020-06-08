@@ -7,35 +7,34 @@
             <div class="card">
                 <p class="bank">Bank Payments Project</p>
                 <img class="barcode" src="../img/card/barcode.png" alt="barcode"/>
-                <p class="id">${bill.number}</p>
-                <p class="validity">${bill.validity.getMonthValue()}/${bill.validity.getYear()}</p>
+                <p th:text="${bill.id}" class="id"></p>
+                <p th:text="${bill.validity.getMonthValue() + '/' + bill.validity.getYear()}" class="validity"></p>
                 <p class="owner">Roman Romanenko</p>
                 <img class="type" src="../img/card/mastercard.png" alt="mastercard"/>
             </div>
             <div class="content-wrapper">
                 <h3 class="content-header">Here is your card balance and validity:</h3>
-                <p class="content-text">Balance: ${bill.balance} UAH</p>
-                <p class="content-text">Card valid to date: ${bill.validity}</p>
+                <p th:text="${'Balance: ' + bill.balance + ' UAH'}" class="content-text"></p>
+                <p th:text="${'Card valid to date: ' + bill.validity}" class="content-text"></p>
             </div>
         </div>
-        <c:if test="${bill.type eq 'UNSIGNED'}">
+        <div th:if="${bill.type.name() == 'UNSIGNED'}" th:remove="tag">
             <hr>
             <div class="money-wrapper">
                 <h2 class="content-header">You can take a credit or put a deposit</h2>
-                <c:if test="${not empty errorMessage}">
-                    <div class="content-header error">
-                        <p>${errorMessage}</p>
-                    </div>
-                </c:if>
+                <div th:if="${errorMessage}" th:remove="tag">
+                    <div class="content-header error" th:text="${errorMessage}"></div>
+                    <hr>
+                </div>
                 <div class="money-service">
                     <div class="form form-credit">
                         <h3 class="header">Take credit is simple:</h3>
                         <p class="secret">just 23% per month</p>
-                        <form th:action="@{/credit/new}" th:object="${credit}" class="body" method="POST">
+                        <form th:action="@{/credit/new}" class="body" method="POST">
                             <input type="hidden" name="id" value="${bill.id}">
                             <div class="input">
                                 <label for="creditAmount">Amount:</label>
-                                <input th:field="*{amount}" class="currency" id="creditAmount" type="text" value=""
+                                <input class="currency" id="creditAmount" type="text" name="amount" value=""
                                        placeholder="UAH"/>
                             </div>
                             <button class="button" type="submit">Take it</button>
@@ -56,19 +55,19 @@
                     </div>
                 </div>
             </div>
-        </c:if>
-        <c:if test="${bill.type eq 'CREDIT'}">
+        </div>
+        <div th:if="${bill.type.name() == 'CREDIT'}" th:remove="tag">
             <hr>
             <div class="content-wrapper">
                 <h3 class="content-header">Information about your credit:</h3>
-                <p class="content-text">Debt: ${credit.debt} UAH</p>
-                <p class="content-text">Limit: ${credit.limit}</p>
-                <p class="content-text">Percentage: ${credit.percentage}% per month</p>
-                <p class="content-text">Start: ${credit.start}</p>
-                <p class="content-text">Deadline: ${credit.deadline}</p>
+                <p th:text="${'Debt: ' + credit.debt + ' UAH'}" class="content-text"></p>
+                <p th:text="${'Limit: ' + credit.limit + ' UAH'}" class="content-text"></p>
+                <p th:text="${'Percentage: ' + credit.percentage + '% per month'}" class="content-text"></p>
+                <p th:text="${'Start: ' + credit.start}" class="content-text"></p>
+                <p th:text="${'Deadline: ' + credit.deadline}" class="content-text"></p>
             </div>
-        </c:if>
-        <c:if test="${bill.type eq 'DEPOSIT'}">
+        </div>
+        <div th:if="${bill.type.name() == 'DEPOSIT'}" th:remove="tag">
             <hr>
             <div class="content-wrapper">
                 <h3 class="content-header">Information about your deposit:</h3>
@@ -77,7 +76,7 @@
                 <p class="content-text">Start: ${deposit.start}</p>
                 <p class="content-text">Finish: ${deposit.finish}</p>
             </div>
-        </c:if>
+        </div>
     </div>
 </main>
 </html>

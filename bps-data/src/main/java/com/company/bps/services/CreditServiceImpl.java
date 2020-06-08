@@ -5,41 +5,55 @@ import com.company.bps.repositories.CreditRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class CreditServiceImpl implements CreditService {
 
-    private final CreditRepository repository;
+    private final CreditRepository creditRepository;
 
-    public CreditServiceImpl(CreditRepository repository) {
-        this.repository = repository;
+    public CreditServiceImpl(CreditRepository creditRepository) {
+        this.creditRepository = creditRepository;
     }
 
     @Override
     public Credit save(Credit credit) {
-        return repository.save(credit);
+        return creditRepository.save(credit);
     }
 
     @Override
     public Credit findById(Long id) {
-        return repository.findById(id).orElse(null);
+        return creditRepository.findById(id).orElse(null);
     }
 
     @Override
     public Set<Credit> findAll() {
         Set<Credit> credits = new HashSet<>();
-        repository.findAll().forEach(credits::add);
+        creditRepository.findAll().forEach(credits::add);
         return credits;
     }
 
     @Override
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        creditRepository.deleteById(id);
     }
 
     @Override
     public void delete(Credit credit) {
-        repository.delete(credit);
+        creditRepository.delete(credit);
+    }
+
+    @Override
+    public Optional<Credit> findByIdAndAccountId(Long billId, Long accountId) {
+        Optional<Credit> optionalCredit = creditRepository.findById(billId);
+        if (optionalCredit.isPresent()){
+            Credit credit = optionalCredit.get();
+            if (credit.getBill().getAccount().getId().equals(accountId)) {
+                return optionalCredit;
+            }
+        }
+
+        return Optional.empty();
     }
 }
