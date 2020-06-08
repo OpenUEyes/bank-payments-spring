@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
+
 @Controller
 public class RegistrationController {
 
@@ -25,7 +27,10 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registration(Model model, @ModelAttribute("account") Account account, BindingResult bindingResult) {
+    public String registration(Model model, @Valid @ModelAttribute("account") Account account, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
 
         boolean exist = accountService.existsByLoginOrEmailOrPhoneNumber(account.getLogin(), account.getEmail(), account.getPhoneNumber());
         if (exist) {

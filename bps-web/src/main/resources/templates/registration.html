@@ -7,7 +7,7 @@
             <h3 class="header">Registration</h3>
             <form class="body" th:action="@{/registration}" th:object="${account}" method="POST">
                 <span class="error" th:if="${#fields.hasErrors('*')}">
-                    <span th:each="err : ${#fields.errors('*')}" th:text="${err}">Something went wrong</span>
+                    <span th:text="${#fields.errors('*').get(0)}">Something went wrong</span>
                 </span>
                 <span class="error" th:text="${errorMessage}"></span>
                 <!--                <c:if test="${not empty errorMessage}">-->
