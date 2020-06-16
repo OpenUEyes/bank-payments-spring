@@ -58,9 +58,6 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public Optional<Bill> findByIdAndAccountId(Long id, Long accountId) {
-        System.out.println();
-        System.out.println("In bill service");
-        System.out.println();
         return billRepository.findByIdAndAccountId(id, accountId);
     }
 
@@ -111,20 +108,7 @@ public class BillServiceImpl implements BillService {
                 .account(account) // auto linking
                 .build();
 
-        System.out.println(bill.getAccount().getId().toString());
-        account.getBills().forEach((e)->{
-            System.out.println(e.getId());
-        });
-        System.out.println("        billRepository.save(bill);\n");
         billRepository.save(bill);
-        System.out.println("        accountRepository.save(account);\n");
-//        accountRepository.save(account);
-
-
-        System.out.println(bill.getAccount().getId().toString());
-        account.getBills().forEach((e)->{
-            System.out.println(e.getId());
-        });
     }
 
     @Override
